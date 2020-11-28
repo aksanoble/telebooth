@@ -26,12 +26,14 @@ export default class RenderMessagesProxy extends React.Component {
           <OnlineUsers
             userId={this.props.userId}
             username={this.props.username}
+            setCurrentChatId={this.props.setCurrentChatId}
           />
         </div>
         <div className="mobileview visible-xs">
           <OnlineUsers
             userId={this.props.userId}
             username={this.props.username}
+            setCurrentChatId={this.props.setCurrentChatId}
           />
         </div>
         <div className="wd75">
@@ -41,6 +43,7 @@ export default class RenderMessagesProxy extends React.Component {
             setMutationCallback={this.setMutationCallback}
             username={this.props.username}
             userId={this.props.userId}
+            currentChatId={this.props.currentChatId}
 
           />
           <Textbox

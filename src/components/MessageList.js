@@ -6,11 +6,10 @@ import moment from 'moment';
 export default class MessageList extends React.Component {
   render() {
     const { isNew } = this.props;
-
     return (
       <div className={isNew ? "messageWrapperNew" : "messageWrapper"}>
         {
-          this.props.messages.map((m, i) => {
+          this.props.messages.filter(m => m.username == this.props.currentChatId).map((m, i) => {
             return (
               <div key={m.id} className="message">
                 <div className="messageNameTime">

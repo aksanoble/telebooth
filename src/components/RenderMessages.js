@@ -35,8 +35,7 @@ export default class RenderMessages extends React.Component {
     this.state = {
       messages: [],
       newMessages: [],
-      error: null,
-    }
+      error: null    }
   }
 
   async componentWillMount() {
@@ -184,7 +183,7 @@ export default class RenderMessages extends React.Component {
   }
 
   render() {
-    const { messages, newMessages, bottom } = this.state;
+    let { messages, newMessages, bottom } = this.state;
     // set refetch in parent component for refetching data whenever an event occurs
     if (!this.props.refetch && this.state.refetch) {
       this.props.setRefetch(this.refetch);
@@ -237,6 +236,7 @@ export default class RenderMessages extends React.Component {
           messages={messages}
           isNew={false}
           username={this.props.username}
+          currentChatId={this.props.currentChatId}
         />
         { /* Show old/new message separation */}
         <div

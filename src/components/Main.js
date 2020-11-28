@@ -11,8 +11,9 @@ export default class Main extends React.Component {
     super();
     this.state = {
       isLoggedIn: false,
-      username:"",
-      userId: null
+      username: "aksanoble",
+      currentChatId:null,
+      userId: 1
     };
   }
 
@@ -23,6 +24,12 @@ export default class Main extends React.Component {
     })
   }
 
+  setCurrentChatId = (id) => {
+    this.setState({
+      currentChatId: id
+    })
+  }
+  
   // check usernme and  perform login
   login = (id) => {
     this.setState({
@@ -32,18 +39,10 @@ export default class Main extends React.Component {
   }
 
   render() {
-    const { username, isLoggedIn, userId } = this.state;
+    const { username, isLoggedIn, userId, currentChatId } = this.state;
     // Login if not logged in and head to chat
     return (
       <div className="app">
-        {
-          !isLoggedIn ? (
-            <LandingPage
-              setUsername={this.setUsername}
-              login={this.login}
-              username={username}
-            />
-          ) : (
             <ApolloConsumer>
               {
                 (client) => {
@@ -52,14 +51,14 @@ export default class Main extends React.Component {
                       userId={userId}
                       username={username}
                       client={client}
+                      setCurrentChatId={this.setCurrentChatId}
+                      currentChatId={currentChatId}
                     />
                   );
                 }
               }
 
             </ApolloConsumer>
-          )
-        }
       </div>
     )
   }

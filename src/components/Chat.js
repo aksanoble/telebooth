@@ -94,6 +94,8 @@ class Chat extends React.Component {
           setRefetch={this.setRefetch}
           userId={this.props.userId}
           username={username}
+          currentChatId={this.props.currentChatId}
+          setCurrentChatId={this.props.setCurrentChatId}
         />
         <footer className="App-footer">
           <div className="hasura-logo">
