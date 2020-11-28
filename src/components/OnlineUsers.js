@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 
 const fetchOnlineUsersSubscription = gql`
   subscription {
-    user_online (
+    user (
       order_by: {username:asc}
     ) {
       id
@@ -49,14 +49,14 @@ class OnlineUsers extends React.Component {
                   className={ isMobileView ? "mobileuserListHeading" : "userListHeading"}
                   onClick={this.toggleMobileView}
                 >
-                  Online Users ({!data.user_online ? 0 : data.user_online.length}) { isMobileView && (<i className="fa fa-angle-up"></i>)}
+                  Contacts ({!data.user ? 0 : data.user.length}) { isMobileView && (<i className="fa fa-angle-up"></i>)}
                 </p>
                 {
                   ((isMobileView && this.state.showMobileView) || !isMobileView) &&
                   (
                     <ul className={isMobileView ? "mobileUserList" : "userList"}>
                       {
-                        data.user_online.map((u) => {
+                        data.user.map((u) => {
                           return <li key={u.id}>{u.username}</li>
                         })
                       }
