@@ -54,3 +54,5 @@ ReactDOM.render(
   </ApolloProvider>),
   document.getElementById('root')
 );
+
+console.log(process.env.REACT_APP_SERVER_PATH, "server path")

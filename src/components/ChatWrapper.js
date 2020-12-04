@@ -50,6 +50,7 @@ export default class RenderMessagesProxy extends React.Component {
             username={this.props.username}
             mutationCallback={this.state.mutationCallback}
             userId={this.props.userId}
+            currentChatId={this.props.currentChatId}
           />
         </div>
       </div>

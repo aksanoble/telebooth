@@ -1,130 +1,64 @@
-import React from 'react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
-import TypingIndicator from './TypingIndicator';
-import '../App.css';
-
-const insertMessage = gql`
-  mutation insert_message ($message: message_insert_input! ){
-    insert_message (
-      objects: [$message]
-    ) {
-      returning {
-        id
-        timestamp
-        text
-        username
-      }
-    }
-  }
-`;
-
-const emitTypingEvent = gql`
-  mutation ($userId: Int) {
-    update_user (
-      _set: {
-        last_typed: "now()"
-      }
-      where: {
-        id: {
-          _eq: $userId
-        }
-      }
-    ) {
-      affected_rows
-    }
-  }
-`;
+import React from "react";
+import "../App.css";
 
 export default class Textbox extends React.Component {
-
   constructor(props) {
-    super()
+    super(props);
     this.state = {
       text: ""
-    }
+    };
   }
 
-  handleTyping = (text, mutate) => {
-    const textLength = text.length;
-    if ((textLength !== 0 && textLength % 5 === 0) || textLength === 1) {
-      this.emitTypingEvent(mutate);
-    }
-    this.setState({ text });
+  handleTyping(text) {
+    this.setState({
+      text
+    });
   }
 
-  emitTypingEvent = async (mutate) => {
-    if (this.props.userId) {
-      await mutate({
-        mutation: emitTypingEvent,
-        variables: {
-          userId: this.props.userId
+  sendMessage = e => {
+    e.preventDefault();
+    fetch(process.env.REACT_APP_SERVER_PATH, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify({
+        chatId: this.props.currentChatId,
+        text: this.state.text
+      })
+    })
+      .then(res => {
+        if (res.status !== 200) {
+          alert("There was an error while saving your message");
+        } else {
+          this.setState({ text: "" });
         }
+      })
+      .catch(e => {
+        alert(
+          "There was a problem with the network. Please check your connection and try again."
+        );
       });
-    }
-  }
+  };
 
   render() {
-    // Mutation component. Add message to the state of <RenderMessages> after mutation.
     return (
-      <Mutation
-        mutation={insertMessage}
-        variables={{
-          message: {
-            username: this.props.username,
-            text: this.state.text
-          }
-        }}
-        update={(cache, { data: { insert_message }}) => {
-          this.props.mutationCallback(
-            {
-              id: insert_message.returning[0].id,
-              timestamp: insert_message.returning[0].timestamp,
-              username: insert_message.returning[0].username,
-              text: insert_message.returning[0].text,
-            }
-          );
-        }}
-      >
-        {
-          (insert_message, { data, loading, error, client}) => {
-            const sendMessage = (e) => { 
-              e.preventDefault();
-              if (this.state.text === '') {
-                return;
-              }
-              insert_message();
-              this.setState({
-                text: ""
-              });
-            }
-            return this.form(sendMessage, client);
-          }
-        }
-
-      </Mutation>
-    )
-  }
-
-  form = (sendMessage, client) => {
-    return (
-      <form onSubmit={sendMessage}>
+      <form onSubmit={this.sendMessage}>
         <div className="textboxWrapper">
-          <TypingIndicator userId={this.props.userId} />
           <input
             id="textbox"
             className="textbox typoTextbox"
             value={this.state.text}
             autoFocus={true}
-            onChange={(e) => {
-              this.handleTyping(e.target.value, client.mutate);
+            onChange={e => {
+              this.handleTyping(e.target.value);
             }}
             autoComplete="off"
           />
-          <button
-            className="sendButton typoButton"
-            onClick={sendMessage}
-          > Send </button>
+          <button className="sendButton typoButton" onClick={this.sendMessage}>
+            {" "}
+            Send{" "}
+          </button>
         </div>
       </form>
     );
