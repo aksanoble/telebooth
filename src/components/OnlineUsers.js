@@ -10,6 +10,7 @@ const fetchOnlineUsersSubscription = gql`
     ) {
       id
       username
+      is_bot
     }
   }
 `;
@@ -56,8 +57,8 @@ class OnlineUsers extends React.Component {
                   (
                     <ul className={isMobileView ? "mobileUserList" : "userList"}>
                       {
-                        data.user.map((u) => {
-                          return <li onClick={() => {this.props.setCurrentChatId(u.username)}} key={u.id}>{u.username}</li>
+                        data.user.filter(u => !u.is_bot).map((u) => {
+                          return <li onClick={() => {this.props.setCurrentChatId(u.id)}} key={u.id}>{u.username}</li>
                         })
                       }
                     </ul>

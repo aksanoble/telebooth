@@ -9,12 +9,12 @@ export default class MessageList extends React.Component {
     return (
       <div className={isNew ? "messageWrapperNew" : "messageWrapper"}>
         {
-          this.props.messages.filter(m => m.username == this.props.currentChatId).map((m, i) => {
+          this.props.messages.filter(m => m.chat_id == this.props.currentChatId).map((m, i) => {
             return (
               <div key={m.id} className="message">
                 <div className="messageNameTime">
                   <div className="messageName">
-                    <b>{m.username}</b>
+                    <b>{m.user.username}</b>
                   </div>
                   <div className="messsageTime">
                     <i>{moment(m.timestamp).fromNow()} </i>

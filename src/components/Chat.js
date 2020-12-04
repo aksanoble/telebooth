@@ -8,32 +8,18 @@ const subscribeToNewMessages = gql`
   subscription {
     message ( order_by: {id:desc} limit: 1) {
       id
-      username
+      user {
+        username
+      }
       text
       timestamp
     } }
 `;
 
-const emitOnlineEvent = gql`
-  mutation ($userId:Int!){
-    update_user (
-      _set: {
-        last_seen: "now()"
-      }
-      where: {
-        id: {
-          _eq: $userId
-        }
-      }
-    ) {
-      affected_rows
-    }
-  }
-`;
-
 class Chat extends React.Component {
 
   constructor (props) {
+
     super(props);
     this.state = {
       username: props.username,
@@ -51,17 +37,6 @@ class Chat extends React.Component {
 
   async componentDidMount() {
     // Emit and event saying the user is online every 5 seconds
-    setInterval(
-      async () => {
-        await this.props.client.mutate({
-          mutation: emitOnlineEvent,
-          variables: {
-            userId: this.props.userId
-          }
-        });
-      },
-      3000
-    );
   }
 
   /*

@@ -11,7 +11,7 @@ export default class Main extends React.Component {
     super();
     this.state = {
       isLoggedIn: false,
-      username: "aksanoble",
+      adminId: 1435261781,
       currentChatId:null,
       userId: 1
     };
