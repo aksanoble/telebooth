@@ -1,58 +1,96 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { ApolloProvider } from 'react-apollo';
-import App from './App';
-import ApolloClient from 'apollo-client';
-import { HttpLink } from 'apollo-link-http';
-import { WebSocketLink } from 'apollo-link-ws';
-import { SubscriptionClient } from 'subscriptions-transport-ws';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { split } from 'apollo-link';
-import { getMainDefinition } from 'apollo-utilities';
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/database";
 
-const scheme = (proto) => {
-  return window.location.protocol === 'https:' ? `${proto}s` : proto;
+const provider = new firebase.auth.GoogleAuthProvider();
+
+// Find these options in your Firebase console
+firebase.initializeApp({
+  apiKey: "AIzaSyCsvfNjRB4D-s5JjoH51Dj9cIcDG1dwMkw",
+  authDomain: "telegram-bot-45f3c.firebaseapp.com",
+  databaseURL: "https://telegram-bot-45f3c-default-rtdb.firebaseio.com",
+  projectId: "telegram-bot-45f3c",
+  storageBucket: "telegram-bot-45f3c.appspot.com",
+  messagingSenderId: "438352716122",
+  appId: "1:438352716122:web:a1c4fa1988319a8ce71363"
+});
+
+export default function Auth() {
+  const [authState, setAuthState] = useState({ status: "loading" });
+
+  useEffect(() => {
+    return firebase.auth().onAuthStateChanged(async user => {
+      if (user) {
+        const token = await user.getIdToken();
+        const idTokenResult = await user.getIdTokenResult();
+        const hasuraClaim =
+          idTokenResult.claims["https://hasura.io/jwt/claims"];
+
+        if (hasuraClaim) {
+          console.log(hasuraClaim, "Hasura Claim");
+          setAuthState({ status: "in", user, token });
+        } else {
+          // Check if refresh is required.
+          const metadataRef = firebase
+            .database()
+            .ref("metadata/" + user.uid + "/refreshTime");
+
+          metadataRef.on("value", async data => {
+            if (!data.exists) return;
+            // Force refresh to pick up the latest custom claims changes.
+            const token = await user.getIdToken(true);
+            setAuthState({ status: "in", user, token });
+          });
+        }
+      } else {
+        setAuthState({ status: "out" });
+      }
+    });
+  }, []);
+
+  const signInWithGoogle = async () => {
+    try {
+      await firebase.auth().signInWithPopup(provider);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      setAuthState({ status: "loading" });
+      await firebase.auth().signOut();
+      setAuthState({ status: "out" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  let content;
+  if (authState.status === "loading") {
+    content = null;
+  } else {
+    content = (
+      <React.Fragment>
+        <div>
+          {authState.status === "in" ? (
+            <div>
+              <h2>Welcome, {authState.user.displayName}</h2>
+              <button onClick={signOut}>Sign out</button>
+              <App authState={authState} />
+            </div>
+          ) : (
+            <button onClick={signInWithGoogle}>Sign in with Google</button>
+          )}
+        </div>
+      </React.Fragment>
+    );
+  }
+
+  return <div className="auth">{content}</div>;
 }
-const HASURA_GRAPHQL_ENGINE_HOSTNAME = 'bluesky-chat.herokuapp.com';
-export const GRAPHQL_ENDPOINT = `${scheme('http')}://${HASURA_GRAPHQL_ENGINE_HOSTNAME}/v1/graphql`;
-export const WEBSOCKET_ENDPOINT = `${scheme('ws')}://${HASURA_GRAPHQL_ENGINE_HOSTNAME}/v1/graphql`;
 
-// Make WebSocketLink with appropriate url
-const mkWsLink = (uri) => {
-  const splitUri = uri.split('//');
-  const subClient = new SubscriptionClient(
-    WEBSOCKET_ENDPOINT,
-    { reconnect: true }
-  );
-  return new WebSocketLink(subClient);
-}
-
-// Make HttpLink
-const httpLink = new HttpLink({ uri: GRAPHQL_ENDPOINT });
-const wsLink = mkWsLink(GRAPHQL_ENDPOINT);
-const link = split(
-  // split based on operation type
-  ({ query }) => {
-    const { kind, operation } = getMainDefinition(query);
-    return kind === 'OperationDefinition' && operation === 'subscription';
-  },
-  wsLink,
-  httpLink
-);
-
-// Instantiate client
-const client = new ApolloClient({
-  link,
-  cache: new InMemoryCache({
-    addTypename: false
-  })
-})
-
-ReactDOM.render(
-  (<ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>),
-  document.getElementById('root')
-);
-
-console.log(process.env.REACT_APP_SERVER_PATH, "server path")
+ReactDOM.render(<Auth />, document.getElementById("root"));
