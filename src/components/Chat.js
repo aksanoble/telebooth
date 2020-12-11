@@ -1,25 +1,24 @@
-import React from 'react';
-import { Subscription } from 'react-apollo';
-import gql from 'graphql-tag';
-import ChatWrapper from './ChatWrapper';
-import '../App.css';
+import React from "react";
+import { Subscription } from "react-apollo";
+import gql from "graphql-tag";
+import ChatWrapper from "./ChatWrapper";
+import "../App.css";
 
 const subscribeToNewMessages = gql`
   subscription {
-    message ( order_by: {id:desc} limit: 1) {
+    message(order_by: { id: desc }, limit: 1) {
       id
       user {
         username
       }
       text
       timestamp
-    } }
+    }
+  }
 `;
 
 class Chat extends React.Component {
-
-  constructor (props) {
-
+  constructor(props) {
     super(props);
     this.state = {
       username: props.username,
@@ -28,12 +27,11 @@ class Chat extends React.Component {
   }
 
   // set refetch function (coming from child <Query> component) using callback
-  setRefetch = (refetch) => {
+  setRefetch = refetch => {
     this.setState({
       refetch
-    })
-  }
-
+    });
+  };
 
   async componentDidMount() {
     // Emit and event saying the user is online every 5 seconds
@@ -44,42 +42,31 @@ class Chat extends React.Component {
     No data is bound to the subscription component
     As soon as an event occurs, the refetch() of the child component is called
   */
-  render () {
+  render() {
     const { refetch, username } = this.state;
     return (
       <div>
-        <Subscription
-          subscription={subscribeToNewMessages}
-        >
-          {
-            ({data, error, loading}) => {
-              if (error || (data && data.message === null)) {
-                console.error(error || `Unexpected response: ${data}`);
-                return "Error";
-              }
-              if (refetch) {
-                refetch();
-              }
-              return null;
+        <Subscription subscription={subscribeToNewMessages}>
+          {({ data, error, loading }) => {
+            if (error || (data && data.message === null)) {
+              console.error(error || `Unexpected response: ${data}`);
+              return "Error";
             }
-          }
+            if (refetch) {
+              refetch();
+            }
+            return null;
+          }}
         </Subscription>
         <ChatWrapper
           refetch={refetch}
           setRefetch={this.setRefetch}
-          userId={this.props.userId}
           username={username}
-          currentChatId={this.props.currentChatId}
-          setCurrentChatId={this.props.setCurrentChatId}
+          {...this.props}
         />
-        <footer className="App-footer">
-          <div className="hasura-logo">
-            <img src="https://graphql-engine-cdn.hasura.io/img/powered_by_hasura_black.svg" onClick={() => window.open("https://hasura.io")} alt="Powered by Hasura"/>
-          </div>
-        </footer>
       </div>
     );
   }
-};
+}
 
 export default Chat;

@@ -1,7 +1,7 @@
-import React from 'react';
-import RenderMessages from './RenderMessages';
-import Textbox from './Textbox'
-import OnlineUsers from './OnlineUsers';
+import React from "react";
+import RenderMessages from "./RenderMessages";
+import Textbox from "./Textbox";
+import OnlineUsers from "./OnlineUsers";
 import "../App.css";
 
 export default class RenderMessagesProxy extends React.Component {
@@ -9,31 +9,25 @@ export default class RenderMessagesProxy extends React.Component {
     super(props);
     this.state = {
       refetch: null
-    }
+    };
   }
 
   // Set mutation callback. For instantly adding messages to state after mutation
-  setMutationCallback = (mutationCallback) => {
+  setMutationCallback = mutationCallback => {
     this.setState({
       mutationCallback
-    })
-  }
+    });
+  };
 
   render() {
     return (
       <div className="chatWrapper">
-        <div className="wd25 hidden-xs">
+        <div className="wd25">
           <OnlineUsers
             userId={this.props.userId}
             username={this.props.username}
             setCurrentChatId={this.props.setCurrentChatId}
-          />
-        </div>
-        <div className="mobileview visible-xs">
-          <OnlineUsers
-            userId={this.props.userId}
-            username={this.props.username}
-            setCurrentChatId={this.props.setCurrentChatId}
+            signOut={this.props.signOut}
           />
         </div>
         <div className="wd75">
@@ -44,7 +38,6 @@ export default class RenderMessagesProxy extends React.Component {
             username={this.props.username}
             userId={this.props.userId}
             currentChatId={this.props.currentChatId}
-
           />
           <Textbox
             username={this.props.username}

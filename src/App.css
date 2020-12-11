@@ -1,21 +1,19 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:400,600');
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400');
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,600");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400");
 
 body {
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   font-size: 16px;
   margin: 0;
 }
-.noPadd
-{
+.noPadd {
   padding-left: 0;
   padding-right: 0;
 }
 .removePaddLeft {
-    padding-left: 0;
+  padding-left: 0;
 }
-.addPaddTop
-{
+.addPaddTop {
   padding-top: 10px;
   clear: both;
 }
@@ -50,28 +48,26 @@ body {
   /* Opera 11.10+ */
   background: -o-linear-gradient(top, #a0b4cc, #c2a899);
 }
-.bgImage
-{
+.bgImage {
   position: fixed;
   left: 0;
   width: 100%;
   height: 100vh;
-  background-image: url('./images/chat-app-bg.jpg');
+  background-image: url("./images/chat-app-bg.jpg");
   background-position: center;
   background-size: cover;
   background-position: 0 0;
   background-repeat: no-repeat;
 }
-.bgImage::before
-{
-  content: '';
+.bgImage::before {
+  content: "";
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background-image: linear-gradient(to bottom right,#000,#a92101);
-  opacity: .9;
+  background-image: linear-gradient(to bottom right, #000, #a92101);
+  opacity: 0.9;
 }
 .minHeight {
   width: 100%;
@@ -80,7 +76,7 @@ body {
 .headerWrapper {
   padding: 30px 0;
   padding-left: 75px;
-  min-height: 15vh
+  min-height: 15vh;
 }
 .headerDescription {
   font-size: 20px;
@@ -161,8 +157,7 @@ body {
 .appStack i {
   font-size: 16px;
 }
-.checkBox
-{
+.checkBox {
   color: #00bc00;
   font-size: 22px !important;
 }
@@ -175,29 +170,24 @@ body {
 .appStackIcon img {
   width: 70%;
 }
-.formGroupWrapper
-{
+.formGroupWrapper {
   padding-top: 20px;
   width: 100%;
   float: left;
 }
-.inputGroup
-{
+.inputGroup {
   width: 100%;
 }
-.inputGroup input
-{
+.inputGroup input {
   width: 68% !important;
   display: inline-block;
   height: 40px;
 }
-.inputGroup .groupAppend
-{
+.inputGroup .groupAppend {
   width: 32% !important;
   display: inline-block;
 }
-.groupAppend button
-{
+.groupAppend button {
   width: 100%;
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
@@ -212,13 +202,11 @@ body {
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
-.groupAppend button:hover
-{
+.groupAppend button:hover {
   color: #fff;
   background-color: #e0270e;
 }
-.groupAppend button:focus
-{
+.groupAppend button:focus {
   outline: none;
 }
 .footer {
@@ -281,13 +269,13 @@ body {
 
 .newMessageEven {
   font-size: 18px;
-  background-color: #98FB98;
+  background-color: #98fb98;
   padding-left: 5px;
 }
 
 .newMessageOdd {
   font-size: 18px;
-  background-color: #8FBC8F;
+  background-color: #8fbc8f;
   padding-left: 5px;
 }
 
@@ -306,7 +294,7 @@ body {
   font-weight: 400;
   padding: 10px 0;
   text-align: center;
-  font-family: 'raleway';
+  font-family: "raleway";
   color: #fff;
 }
 
@@ -325,17 +313,17 @@ body {
 .textboxWrapper {
   text-align: center;
   position: fixed;
-  bottom: 87px;
   width: 75%;
   background-color: #fff;
   padding: 1%;
 }
 
-.textbox {}
+.textbox {
+}
 
 .sendButton {
   width: 20%;
-  background-color:'green';
+  background-color: "green";
 }
 
 .login {
@@ -353,7 +341,6 @@ body {
   padding: 0;
   padding-left: 10px;
   display: inline-block;
-
 }
 
 .typoTextbox {
@@ -370,7 +357,8 @@ body {
   background-color: #f6f6f7;
 }
 
-.loginTextbox:focus, .typoTextbox:focus {
+.loginTextbox:focus,
+.typoTextbox:focus {
   outline: none;
   border-color: #016d95;
 }
@@ -385,7 +373,7 @@ body {
   width: 21%;
   display: inline-block;
   border-radius: 5px;
-  background-color: 'green' !important;
+  background-color: "green" !important;
   cursor: pointer;
   font-size: 16px;
   margin-right: 1%;
@@ -408,7 +396,8 @@ body {
   background-color: #dba203;
 }
 
-.loginButton:focus, .typoButton:focus {
+.loginButton:focus,
+.typoButton:focus {
   outline: none;
 }
 
@@ -418,7 +407,7 @@ body {
 
 .loginHeading {
   text-align: center;
-  font-family: 'Raleway';
+  font-family: "Raleway";
   margin-top: 0;
   padding-bottom: 20px;
 }
@@ -438,7 +427,7 @@ body {
 
 .errorMessage {
   text-align: center;
-  color: 'red';
+  color: "red";
   padding-bottom: 10px;
 }
 
@@ -458,7 +447,8 @@ body {
   overflow: auto;
 }
 
-.messageName, .messsageTime {
+.messageName,
+.messsageTime {
   width: 49%;
   display: inline-block;
 }
@@ -506,8 +496,7 @@ body {
   padding-left: 1%;
 }
 
-.displayFlex
-{
+.displayFlex {
   display: flex;
   align-items: center;
 }
@@ -533,7 +522,7 @@ body {
   color: white;
   text-align: left;
 }
-.App-footer{
+.App-footer {
   position: fixed;
   bottom: 0;
   text-align: center;
@@ -544,12 +533,11 @@ body {
   border-top: 1px solid #ccc;
 }
 
-.footer-small-text{
+.footer-small-text {
   font-size: 12px;
 }
 @media (max-width: 767px) {
-  .headerDescription
-  {
+  .headerDescription {
     text-align: center;
   }
   .headerWrapper {
@@ -563,27 +551,22 @@ body {
     display: flex;
     justify-content: center;
   }
-  .wd75
-  {
+  .wd75 {
     width: 100%;
   }
-  .message
-  {
+  .message {
     width: 90%;
   }
-  .textboxWrapper
-  {
+  .textboxWrapper {
     width: 100%;
   }
-  .mobileview
-  {
+  .mobileview {
     position: absolute;
     right: 0px;
     bottom: 152px;
     width: 50%;
   }
-  .mobileuserListHeading
-  {
+  .mobileuserListHeading {
     font-size: 14px;
     background-color: #222;
     color: #fff;
@@ -591,12 +574,10 @@ body {
     margin-bottom: 0;
     padding: 5px;
   }
-  .mobileuserListHeading i
-  {
+  .mobileuserListHeading i {
     margin-left: 10px;
   }
-  .mobileUserList
-  {
+  .mobileUserList {
     background-color: #4f5050;
     padding-inline-start: 0px;
     -webkit-padding-start: 0px;
@@ -604,8 +585,7 @@ body {
     -o-padding-start: 0px;
     margin-bottom: 0;
   }
-  .mobileUserList li
-  {
+  .mobileUserList li {
     list-style-type: none;
     color: #fff;
     padding: 5px;
@@ -650,17 +630,14 @@ body {
   .appStackIconWrapper {
     padding-left: 10px;
   }
-  .inputGroup input
-  {
+  .inputGroup input {
     width: 63% !important;
   }
-  .inputGroup .groupAppend
-  {
+  .inputGroup .groupAppend {
     width: 37% !important;
   }
   .groupAppend button {
     font-size: 13px;
     letter-spacing: 0;
   }
-
 }

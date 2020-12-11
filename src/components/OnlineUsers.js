@@ -2,6 +2,16 @@ import React from "react";
 import { Subscription } from "react-apollo";
 import moment from "moment";
 import gql from "graphql-tag";
+import {
+  Flex,
+  Menu,
+  MenuButton,
+  Button,
+  MenuItem,
+  MenuList
+} from "@chakra-ui/react";
+// import { ChevronDownIcon } from "@chakra-ui/react";
+import { IoEllipsisVerticalSharp } from "react-icons/io5";
 
 const fetchOnlineUsersSubscription = gql`
   subscription {
@@ -44,34 +54,38 @@ class OnlineUsers extends React.Component {
           }
           return (
             <div>
-              <p
-                className={
-                  isMobileView ? "mobileuserListHeading" : "userListHeading"
-                }
-                onClick={this.toggleMobileView}
+              <Flex
+                justifyContent="space-between"
+                height="30px"
+                bg="#2E5EAA"
+                p="10px"
               >
-                Contacts ({!data.user ? 0 : data.user.length}){" "}
-                {isMobileView && <i className="fa fa-angle-up"></i>}
-              </p>
-              {((isMobileView && this.state.showMobileView) ||
-                !isMobileView) && (
-                <ul className={isMobileView ? "mobileUserList" : "userList"}>
-                  {data.user
-                    .filter(u => !u.is_bot)
-                    .map(u => {
-                      return (
-                        <li
-                          onClick={() => {
-                            this.props.setCurrentChatId(u.id);
-                          }}
-                          key={u.id}
-                        >
-                          {u.username}
-                        </li>
-                      );
-                    })}
-                </ul>
-              )}
+                <Menu>
+                  MountBlue ({!data.user ? 0 : data.user.length})
+                  <MenuButton>
+                    <IoEllipsisVerticalSharp />
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem onClick={this.props.signOut}>Sign out</MenuItem>
+                  </MenuList>
+                </Menu>
+              </Flex>
+              <ul className="userList">
+                {data.user
+                  .filter(u => !u.is_bot)
+                  .map(u => {
+                    return (
+                      <li
+                        onClick={() => {
+                          this.props.setCurrentChatId(u.id);
+                        }}
+                        key={u.id}
+                      >
+                        {u.username}
+                      </li>
+                    );
+                  })}
+              </ul>
             </div>
           );
         }}
@@ -80,10 +94,7 @@ class OnlineUsers extends React.Component {
 
     return (
       <div>
-        <div className="onlineUsers hidden-xs">{subscriptionData(false)}</div>
-        <div className="mobileonlineUsers visible-xs">
-          {subscriptionData(true)}
-        </div>
+        <div className="onlineUsers">{subscriptionData(false)}</div>
       </div>
     );
   }

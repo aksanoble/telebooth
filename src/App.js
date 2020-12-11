@@ -58,12 +58,11 @@ const getClient = authState => {
 };
 
 const App = props => {
-  console.log(props, "props");
   return (
     <ApolloProvider client={getClient(props.authState)}>
-      <div className="app">
+      <div width="100%" className="app">
         {" "}
-        <Main />{" "}
+        <Main {...props} />{" "}
       </div>
     </ApolloProvider>
   );

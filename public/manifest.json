@@ -1,6 +1,6 @@
 {
-  "short_name": "Realtime Group Chat",
-  "name": "Realtime Group Chat Powered by Hasura",
+  "short_name": "Telebooth",
+  "name": "Self hosted, open souce telegram bot management",
   "icons": [
     {
       "src": "favicon.png",

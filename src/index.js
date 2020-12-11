@@ -4,6 +4,8 @@ import App from "./App";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
+import { ChakraProvider, Button, Center, Box } from "@chakra-ui/react";
+import { FaGoogle } from "react-icons/fa";
 
 const provider = new firebase.auth.GoogleAuthProvider();
 
@@ -30,7 +32,6 @@ export default function Auth() {
           idTokenResult.claims["https://hasura.io/jwt/claims"];
 
         if (hasuraClaim) {
-          console.log(hasuraClaim, "Hasura Claim");
           setAuthState({ status: "in", user, token });
         } else {
           // Check if refresh is required.
@@ -75,22 +76,31 @@ export default function Auth() {
   } else {
     content = (
       <React.Fragment>
-        <div>
+        <Center width="100%" height="100vh">
           {authState.status === "in" ? (
-            <div>
-              <h2>Welcome, {authState.user.displayName}</h2>
-              <button onClick={signOut}>Sign out</button>
-              <App authState={authState} />
-            </div>
+            <Box w="100%">
+              <App signOut={signOut} authState={authState} />
+            </Box>
           ) : (
-            <button onClick={signInWithGoogle}>Sign in with Google</button>
+            <Button
+              onClick={signInWithGoogle}
+              colorScheme="blue"
+              size="md"
+              leftIcon={FaGoogle}
+            >
+              Sign in with Google
+            </Button>
           )}
-        </div>
+        </Center>
       </React.Fragment>
     );
   }
 
-  return <div className="auth">{content}</div>;
+  return (
+    <ChakraProvider>
+      <div className="auth">{content}</div>
+    </ChakraProvider>
+  );
 }
 
 ReactDOM.render(<Auth />, document.getElementById("root"));
