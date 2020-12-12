@@ -15,8 +15,9 @@ import { IoEllipsisVerticalSharp } from "react-icons/io5";
 
 const fetchOnlineUsersSubscription = gql`
   subscription {
-    user(order_by: { username: asc }) {
-      id
+    online_users {
+      user_id
+      timestamp: ts
       username
       is_bot
     }
@@ -52,6 +53,8 @@ class OnlineUsers extends React.Component {
             console.log(error, "Error");
             return "Error loading online users";
           }
+
+          console.log(data, "RESULT");
           return (
             <div>
               <Flex
@@ -61,7 +64,8 @@ class OnlineUsers extends React.Component {
                 p="10px"
               >
                 <Menu>
-                  Telebooth ({!data.user ? 0 : data.user.length})
+                  Telebooth ({!data.online_users ? 0 : data.online_users.length}
+                  )
                   <MenuButton>
                     <IoEllipsisVerticalSharp />
                   </MenuButton>
@@ -71,15 +75,15 @@ class OnlineUsers extends React.Component {
                 </Menu>
               </Flex>
               <ul className="userList">
-                {data.user
+                {data.online_users
                   .filter(u => !u.is_bot)
                   .map(u => {
                     return (
                       <li
                         onClick={() => {
-                          this.props.setCurrentChatId(u.id);
+                          this.props.setCurrentChatId(u.user_id);
                         }}
-                        key={u.id}
+                        key={u.user_id}
                       >
                         {u.username}
                       </li>
