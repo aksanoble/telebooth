@@ -61,7 +61,7 @@ class OnlineUsers extends React.Component {
                 p="10px"
               >
                 <Menu>
-                  MountBlue ({!data.user ? 0 : data.user.length})
+                  Telebooth ({!data.user ? 0 : data.user.length})
                   <MenuButton>
                     <IoEllipsisVerticalSharp />
                   </MenuButton>
