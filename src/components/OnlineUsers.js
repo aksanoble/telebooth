@@ -8,9 +8,9 @@ import {
   MenuButton,
   Button,
   MenuItem,
-  MenuList
+  MenuList,
+  Box
 } from "@chakra-ui/react";
-// import { ChevronDownIcon } from "@chakra-ui/react";
 import { IoEllipsisVerticalSharp } from "react-icons/io5";
 
 const fetchOnlineUsersSubscription = gql`
@@ -20,6 +20,7 @@ const fetchOnlineUsersSubscription = gql`
       timestamp: ts
       username
       is_bot
+      is_unread
     }
   }
 `;
@@ -86,6 +87,14 @@ class OnlineUsers extends React.Component {
                         key={u.user_id}
                       >
                         {u.username}
+                        {u.is_unread && (
+                          <Box
+                            width="20px"
+                            height="20px"
+                            borderRadius="20px"
+                            backgroundColor="tomato"
+                          ></Box>
+                        )}
                       </li>
                     );
                   })}
