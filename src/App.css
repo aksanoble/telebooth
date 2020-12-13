@@ -597,6 +597,11 @@ body {
     font-size: 12px;
   }
 }
+
+.unread-messages {
+  min-width: 20px;
+  background-color: red;
+}
 @media (max-width: 991px) {
   .headerWrapper {
     display: flex;
