@@ -1,3 +1,5 @@
+import gql from "graphql-tag";
+
 export const fetchMessages = gql`
   query($last_received_id: Int, $last_received_ts: timestamptz) {
     message(
@@ -31,13 +33,9 @@ export const fetchOnlineUsersSubscription = gql`
   }
 `;
 
-const addUser = gql`
-  mutation ($username: String!) {
-    insert_user (
-      objects: [{
-        username: $username
-      }]
-    ) {
+export const addUser = gql`
+  mutation($username: String!) {
+    insert_user(objects: [{ username: $username }]) {
       returning {
         id
         username
@@ -46,15 +44,16 @@ const addUser = gql`
   }
 `;
 
-const subscribeToNewMessages = gql`
+export const subscribeToNewMessages = gql`
   subscription {
-    message(order_by: { id: desc }, limit: 1) {
+    message(order_by: { id: asc }) {
       id
       user {
         username
       }
       text
       timestamp
+      chat_id
     }
   }
 `;
