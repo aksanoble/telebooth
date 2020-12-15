@@ -55,7 +55,6 @@ class OnlineUsers extends React.Component {
             return "Error loading online users";
           }
 
-          console.log(data, "RESULT");
           return (
             <div>
               <Flex
