@@ -1,20 +1,14 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { useContext } from 'react';
-import { useSubscription } from '@apollo/client';
-import gql from 'graphql-tag';
-import {
-  Flex,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-} from '@chakra-ui/react';
-import { IoEllipsisVerticalSharp } from 'react-icons/io5';
+import React, { useContext } from "react";
+import { useSubscription } from "@apollo/client";
+import gql from "graphql-tag";
+import { Flex, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { IoEllipsisVerticalSharp } from "react-icons/io5";
 
-import { logout } from '../../apis/firebase';
-import authContext from '../../contexts/authContext';
-import appContext from '../../contexts/appContext';
+import { logout } from "../../apis/firebase";
+import authContext from "../../contexts/authContext";
+import appContext from "../../contexts/appContext";
 
 const fetchOnlineUsersSubscription = gql`
   subscription {
@@ -28,17 +22,19 @@ const fetchOnlineUsersSubscription = gql`
 `;
 
 const Users = () => {
-  const { loading, data, error } = useSubscription(fetchOnlineUsersSubscription);
+  const { loading, data, error } = useSubscription(
+    fetchOnlineUsersSubscription
+  );
   const { setAuthState } = useContext(authContext);
   const { updateState } = useContext(appContext);
 
   const signOut = async () => {
     try {
-      setAuthState({ status: 'loading' });
+      setAuthState({ status: "loading" });
       await logout();
-      setAuthState({ status: 'out' });
+      setAuthState({ status: "out" });
     } catch (err) {
-      alert('Error while logging out.');
+      alert("Error while logging out.");
     }
   };
 
@@ -46,19 +42,11 @@ const Users = () => {
     return <div>Loading...</div>;
   }
 
-  console.log(error, 'Printing the data');
   return (
     <div className="onlineUsers">
-      <Flex
-        justifyContent="space-between"
-        height="30px"
-        bg="#2E5EAA"
-        p="10px"
-      >
+      <Flex justifyContent="space-between" height="30px" bg="#2E5EAA" p="10px">
         <Menu>
-          Telebooth (
-          {!data.online_users ? 0 : data.online_users.length}
-          )
+          Telebooth ({!data.online_users ? 0 : data.online_users.length})
           <MenuButton>
             <IoEllipsisVerticalSharp />
           </MenuButton>
@@ -69,8 +57,8 @@ const Users = () => {
       </Flex>
       <ul className="userList">
         {data.online_users
-          .filter((u) => !u.is_bot)
-          .map((u) => (
+          .filter(u => !u.is_bot)
+          .map(u => (
             <li
               onClick={() => {
                 updateState({ currentChatId: u.user_id });
