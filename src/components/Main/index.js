@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import AppContext from '../../contexts/appContext';
 import Users from '../Users';
 import RenderMessages from '../Messages';
-import AddNewMessage from '../AddNewMessage';
+import Header from './Header';
 
 const INITIAL_STATE = {
   isLoggedIn: false,
@@ -11,6 +11,7 @@ const INITIAL_STATE = {
   currentChatId: null,
   userId: 1,
   username: null,
+  botUserName: "AirtableTGBot",
 };
 
 const Main = () => {
@@ -25,13 +26,13 @@ const Main = () => {
 
   return (
     <AppContext.Provider value={{ appState, updateState }}>
+      <Header />
       <div className="chatWrapper">
         <div className="wd25">
           <Users />
         </div>
         <div className="wd75">
           <RenderMessages />
-          <AddNewMessage currentChatId={appState.currentChatId} />
         </div>
       </div>
     </AppContext.Provider>

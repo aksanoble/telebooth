@@ -1,13 +1,14 @@
+/* eslint-disable react/no-children-prop */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useContext } from "react";
 import { useSubscription } from "@apollo/client";
 import gql from "graphql-tag";
-import { Flex, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { IoEllipsisVerticalSharp } from "react-icons/io5";
+import {
+  Box, Text, Stack, InputGroup, InputLeftElement, Input,
+} from "@chakra-ui/react";
+import { SearchIcon } from '@chakra-ui/icons';
 
-import { logout } from "../../apis/firebase";
-import authContext from "../../contexts/authContext";
 import appContext from "../../contexts/appContext";
 
 const fetchOnlineUsersSubscription = gql`
@@ -16,27 +17,17 @@ const fetchOnlineUsersSubscription = gql`
       user_id
       timestamp: ts
       username
+      first_name
       is_bot
     }
   }
 `;
 
 const Users = () => {
-  const { loading, data, error } = useSubscription(
-    fetchOnlineUsersSubscription
+  const { loading, data } = useSubscription(
+    fetchOnlineUsersSubscription,
   );
-  const { setAuthState } = useContext(authContext);
-  const { updateState } = useContext(appContext);
-
-  const signOut = async () => {
-    try {
-      setAuthState({ status: "loading" });
-      await logout();
-      setAuthState({ status: "out" });
-    } catch (err) {
-      alert("Error while logging out.");
-    }
-  };
+  const { appState, updateState } = useContext(appContext);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -44,31 +35,42 @@ const Users = () => {
 
   return (
     <div className="onlineUsers">
-      <Flex justifyContent="space-between" height="30px" bg="#2E5EAA" p="10px">
-        <Menu>
-          Telebooth ({!data.online_users ? 0 : data.online_users.length})
-          <MenuButton>
-            <IoEllipsisVerticalSharp />
-          </MenuButton>
-          <MenuList>
-            <MenuItem onClick={signOut}>Sign out</MenuItem>
-          </MenuList>
-        </Menu>
-      </Flex>
-      <ul className="userList">
+      <Stack style={{ marginTop: 4 }}>
+        <div className="search-bar-container">
+          <InputGroup>
+            <InputLeftElement
+              pointerEvents="none"
+              children={
+                <SearchIcon color="gray.300" />
+              }
+            />
+            <Input type="text" placeholder="Search" />
+          </InputGroup>
+        </div>
         {data.online_users
-          .filter(u => !u.is_bot)
-          .map(u => (
-            <li
-              onClick={() => {
-                updateState({ currentChatId: u.user_id });
-              }}
-              key={u.user_id}
-            >
-              {u.username}
-            </li>
-          ))}
-      </ul>
+          .filter((u) => !u.is_bot)
+          .map((u) => {
+            const selected = appState.currentChatId === u.user_id;
+
+            return (
+              <Box
+                w="100%"
+                p={4}
+                mt={0}
+                color="white"
+                backgroundColor={selected ? '#5682a3' : '#ffffff'}
+                onClick={() => updateState({ currentChatId: u.user_id })}
+                key={u.user_id}
+                _hover={{
+                  background: selected ? '#5682a3' : "#f0f0f0",
+                  cursor: "pointer",
+                }}
+              >
+                <Text color={selected ? 'white' : 'black'}>{u.first_name || u.user_id}</Text>
+              </Box>
+            );
+          })}
+      </Stack>
     </div>
   );
 };

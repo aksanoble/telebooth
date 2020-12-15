@@ -4,13 +4,14 @@ import { useSubscription } from "@apollo/client";
 import MessageList from "./List";
 import appContext from "../../contexts/appContext";
 import { subscribeToNewMessages } from "../../globals/global.gqlqueries";
+import AddNewMessage from '../AddNewMessage';
 
 const RenderMessages = () => {
   const {
-    appState: { username, currentChatId }
+    appState: { username, currentChatId, botUserName },
   } = useContext(appContext);
 
-  const { data, loading } = useSubscription(subscribeToNewMessages);
+  const { data } = useSubscription(subscribeToNewMessages);
 
   return (
     <div id="chatbox">
@@ -19,7 +20,9 @@ const RenderMessages = () => {
         isNew={false}
         username={username}
         currentChatId={currentChatId}
+        botUserName={botUserName}
       />
+      <AddNewMessage currentChatId={currentChatId} />
     </div>
   );
 };

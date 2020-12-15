@@ -247,13 +247,13 @@ body {
 }
 
 .message {
-  font-size: 16px;
+  font-size: 15px;
   background-color: #fff;
   padding-left: 5px;
-  margin: 20px;
+  margin: 12px;
   border-radius: 5px;
-  width: 50%;
-  padding: 5px;
+  width: 45%;
+  padding: 8px 12px 8px 12px;
 }
 
 .selfMessage {
@@ -308,11 +308,14 @@ body {
   overflow: auto;
   height: calc(100vh - 90px);
   background-color: #f8f9f9;
+  padding-bottom: 73px;
+  margin-top: 4px;
 }
 
 .textboxWrapper {
   text-align: center;
-  position: fixed;
+  position: absolute;
+  bottom: 10px;
   width: 75%;
   background-color: #fff;
   padding: 1%;
@@ -354,7 +357,7 @@ body {
   padding: 0;
   padding-left: 10px;
   display: inline-block;
-  background-color: #f6f6f7;
+  background-color: #f0f0f0;
 }
 
 .loginTextbox:focus,
@@ -384,16 +387,16 @@ body {
   width: 20%;
   display: inline-block;
   border-radius: 5px;
-  background-color: #ffca27;
+  background-color: #5682a3;
   cursor: pointer;
   font-size: 16px;
   margin-right: 1%;
   border: 0;
-  color: #222;
+  color: white;
 }
 
 .typoButton:hover {
-  background-color: #dba203;
+  background-color: #5682a3;
 }
 
 .loginButton:focus,
@@ -442,9 +445,10 @@ body {
 }
 
 .onlineUsers {
-  background-color: #4f5050;
-  height: 100vh;
+  /* background-color: #4f5050; */
   overflow: auto;
+  height: 100%;
+  margin-bottom: 4px;
 }
 
 .messageName,
@@ -454,18 +458,37 @@ body {
 }
 
 .messageName {
-  color: #1d5d01;
+  color: #5682a3;
 }
 
 .messsageTime {
   text-align: right;
   padding-right: 5px;
-  font-size: 12px;
-  color: #01999b;
+  font-size: 10px;
+  color: #3f4144;
+  width: 100%;
+}
+
+.chat-pointer {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 12px;
+  right: 2px;
+  bottom: auto;
+  border: 11px solid;
+  border-color: #cad8e3 transparent transparent transparent;
+}
+
+.chat-pointer-left {
+  left: 2px;
+  right: unset;
+  border-color: white transparent transparent transparent;
 }
 
 .userList {
-  margin-top: 0;
+  margin-top: 4px;
   margin-bottom: 0;
   -webkit-padding-start: 0px;
 }
@@ -479,6 +502,7 @@ body {
 .chatWrapper {
   display: flex;
   height: 100vh;
+  padding-top: 68px;
 }
 
 .userListHeading {
@@ -602,6 +626,24 @@ body {
   min-width: 20px;
   background-color: red;
 }
+
+.search-bar-container {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 16px;
+  padding-bottom: 12px;
+}
+
+.message-container {
+  display: flex;
+  position: relative;
+}
+
+.messageWrapper {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
 @media (max-width: 991px) {
   .headerWrapper {
     display: flex;
