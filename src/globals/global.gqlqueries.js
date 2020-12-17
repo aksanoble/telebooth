@@ -21,13 +21,14 @@ export const fetchMessages = gql`
     }
   }
 `;
-
 export const fetchOnlineUsersSubscription = gql`
   subscription {
     online_users {
       user_id
       timestamp: ts
       username
+      first_name
+      is_unread
       is_bot
     }
   }
@@ -40,6 +41,14 @@ export const addUser = gql`
         id
         username
       }
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation($id: Int, $is_unread: Boolean) {
+    update_user(where: { id: { _eq: $id } }, _set: { is_unread: $is_unread }) {
+      affected_rows
     }
   }
 `;
