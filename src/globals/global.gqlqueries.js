@@ -48,7 +48,11 @@ export const addUser = gql`
 export const UPDATE_USER = gql`
   mutation($id: Int, $is_unread: Boolean) {
     update_user(where: { id: { _eq: $id } }, _set: { is_unread: $is_unread }) {
-      affected_rows
+      affected_rows,
+      returning {
+        id,
+        is_unread
+      }
     }
   }
 `;

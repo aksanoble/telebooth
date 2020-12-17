@@ -1,7 +1,7 @@
 /* eslint-disable react/no-children-prop */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useSubscription, useMutation } from "@apollo/client";
 import {
   Box,
@@ -14,57 +14,56 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuIcon,
-  MenuCommand,
-  MenuDivider,
-  Button,
-  useToast
+  Flex,
 } from "@chakra-ui/react";
+import get from 'lodash.get';
 import { SearchIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import {
   fetchOnlineUsersSubscription,
-  UPDATE_USER
+  UPDATE_USER,
 } from "../../globals/global.gqlqueries";
 
 import appContext from "../../contexts/appContext";
 
 const Users = () => {
-  const { loading, data } = useSubscription(fetchOnlineUsersSubscription);
+  let { loading, data } = useSubscription(fetchOnlineUsersSubscription);
   const { appState, updateState } = useContext(appContext);
 
-  console.log(appState, "Appstate");
   const [
     updateUser,
-    { data: userData, loading: loadingUser, error: userError }
+    { loading: loadingUser, error: userError, data: userData },
   ] = useMutation(UPDATE_USER);
-  const toast = useToast();
 
-  if (loadingUser) {
-    toast({
-      title: "Account created.",
-      description: "We've created your account for you.",
-      status: "success",
-      duration: 2000,
-      position: "bottom-left",
-      isClosable: true
+  const toggleReadStatus = (u) => {
+    updateUser({
+      variables: {
+        id: u.user_id,
+        is_unread: !u.is_unread,
+      },
     });
-  }
+  };
+
+  useEffect(() => {
+    if (!loadingUser && userData) {
+      const userId = get(userData, 'update_user.returning[0].id');
+      const isUnread = get(userData, 'udpate_user.returning[0].is_unread');
+
+      data = data.online_users.map((user) => {
+        if (user.id === userId) {
+          return {
+            ...user,
+            is_unread: isUnread,
+          };
+        }
+
+        return user;
+      });
+    }
+  }, [loadingUser]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
-
-  const toggleReadStatus = u => {
-    updateUser({
-      variables: {
-        id: u.user_id,
-        is_unread: !u.is_unread
-      }
-    });
-  };
 
   return (
     <div className="onlineUsers">
@@ -79,61 +78,52 @@ const Users = () => {
           </InputGroup>
         </div>
         {data.online_users
-          .filter(u => !u.is_bot)
-          .map(u => {
+          .filter((u) => !u.is_bot)
+          .map((u) => {
             const selected = appState.currentChatId === u.user_id;
 
             return (
-              <Box
+              <Flex
                 w="100%"
+                alignItems='center'
                 p={4}
                 mt={0}
-                color="white"
                 backgroundColor={selected ? "#5682a3" : "#ffffff"}
                 onClick={() => updateState({ currentChatId: u.user_id })}
                 key={u.user_id}
                 _hover={{
                   background: selected ? "#5682a3" : "#f0f0f0",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
               >
-                <Text color={selected ? "white" : "black"}>
+                <Text color={selected ? "white" : "black"} flex={1}>
                   {u.first_name || u.user_id}
                 </Text>
                 {u.is_unread && (
                   <Box
                     width="20px"
                     height="20px"
+                    pr="12px"
                     borderRadius="20px"
-                    backgroundColor="tomato"
-                  ></Box>
+                    backgroundColor="#5682a3"
+                  />
                 )}
                 <Menu>
-                  <MenuButton
-                    as={Button}
-                    rightIcon={<ChevronDownIcon />}
-                  ></MenuButton>
+                  <MenuButton onClick={(e) => e.stopPropagation()}>
+                    <ChevronDownIcon w={10} h={8} color={selected ? '#ffffff' : '#2d3748a3'} />
+                  </MenuButton>
                   <MenuList>
-                    {u.is_unread ? (
-                      <MenuItem
-                        onClick={() => {
-                          toggleReadStatus(u);
-                        }}
-                      >
-                        Mark as read
-                      </MenuItem>
-                    ) : (
-                      <MenuItem
-                        onClick={() => {
-                          toggleReadStatus(u);
-                        }}
-                      >
-                        Mark as unread
-                      </MenuItem>
-                    )}
+                    <MenuItem
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleReadStatus(u);
+                      }}
+                    >
+                      {u.is_unread ? 'Mark as read' : 'Mark as unread'}
+                    </MenuItem>
                   </MenuList>
                 </Menu>
-              </Box>
+              </Flex>
             );
           })}
       </Stack>
