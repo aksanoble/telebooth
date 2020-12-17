@@ -1,7 +1,7 @@
 /* eslint-disable react/no-children-prop */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSubscription, useMutation } from "@apollo/client";
 import {
   Text,
@@ -28,6 +28,7 @@ import appContext from "../../contexts/appContext";
 
 const Users = () => {
   const usersState = useSubscription(fetchOnlineUsersSubscription);
+  const [searchText, setSearchText] = useState('');
   const { appState: { currentChatId }, messages, updateState } = useContext(appContext);
   const { loading, error } = usersState;
   let { data } = usersState;
@@ -122,11 +123,11 @@ const Users = () => {
               pointerEvents="none"
               children={<SearchIcon color="gray.300" />}
             />
-            <Input type="text" placeholder="Search" />
+            <Input type="text" placeholder="Search" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
           </InputGroup>
         </div>
         {data.online_users
-          .filter((u) => !u.is_bot)
+          .filter((u) => !u.is_bot && u.first_name.toLowerCase().includes(searchText.toLowerCase()))
           .map((u) => {
             const selected = currentChatId === u.user_id;
             const unreadCount = messages.filter((message) => message.user.id === u.user_id && !message.read).length;
