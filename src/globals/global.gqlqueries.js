@@ -57,16 +57,26 @@ export const UPDATE_USER = gql`
   }
 `;
 
+export const MARK_READ_MESSAGE = gql`
+  mutation($chatId: Int) {
+    update_message(where: {chat_id: {_eq: $chatId}, read: {_eq: false}}, _set: {read: true}) {
+      affected_rows
+    }
+  }
+`;
+
 export const subscribeToNewMessages = gql`
   subscription {
     message(order_by: { id: asc }) {
       id
       user {
         username
+        id
       }
       text
       timestamp
       chat_id
+      read
     }
   }
 `;
