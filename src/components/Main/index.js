@@ -8,13 +8,14 @@ import RenderMessages from '../Messages';
 import Header from './Header';
 import { subscribeToNewMessages } from "../../globals/global.gqlqueries";
 
+const botUserName = process.env.REACT_APP_BOT_USERNAME;
+
 const INITIAL_STATE = {
   isLoggedIn: false,
-  adminId: 1435261781,
   currentChatId: null,
   userId: 1,
   username: null,
-  botUserName: "AirtableTGBot",
+  botUserName,
 };
 
 const Main = () => {
