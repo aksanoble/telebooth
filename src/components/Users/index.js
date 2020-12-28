@@ -126,7 +126,7 @@ const Users = () => {
             <Input type="text" placeholder="Search" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
           </InputGroup>
         </div>
-        {data.online_users
+        {get(data, 'online_users', [])
           .filter((u) => !u.is_bot && u.first_name.toLowerCase().includes(searchText.toLowerCase()))
           .map((u) => {
             const selected = currentChatId === u.user_id;

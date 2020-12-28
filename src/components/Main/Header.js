@@ -2,19 +2,21 @@ import React, { useContext } from 'react';
 import {
   Heading, Flex, Button,
 } from "@chakra-ui/react";
+import { useAuth0 } from '@auth0/auth0-react';
 
 import authContext from "../../contexts/authContext";
-import { logout } from "../../apis/firebase";
 
 const Header = () => {
   const { setAuthState } = useContext(authContext);
+  const { logout } = useAuth0();
 
   const signOut = async () => {
     try {
-      setAuthState({ status: "loading" });
+      // setAuthState({ status: "loading" });
       await logout();
-      setAuthState({ status: "out" });
+      // setAuthState({ status: "out" });
     } catch (err) {
+      console.log(err);
       alert("Error while logging out.");
     }
   };
