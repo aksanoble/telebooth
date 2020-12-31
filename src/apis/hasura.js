@@ -27,6 +27,7 @@ const getClient = (authState) => {
   const headers = {
     Authorization: `Bearer ${authState.token}`,
   };
+
   const httpLink = new HttpLink({
     uri: GRAPHQL_ENDPOINT,
     headers,
