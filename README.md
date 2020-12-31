@@ -1,10 +1,12 @@
 # Telebooth
 
-### Telebooth is a self-hosted Telegram Bot Manager.
-
-**Tech Stacks used in this projects are**
+Telebooth is a self hosted Telegram Bot Manager. Easily create a virtual Telegram identity for your business/community. Self host. No restrictions on number of messages or contacts.
 
 ![screenshots/telebooth.png](screenshots/telebooth.png)
+
+### Setup guide
+
+**Tech Stacks used in this projects are**
 
 - NodeJS
 - Hasura and GraphQL
@@ -141,3 +143,5 @@ Now let's deploy our telebooth client to either Netlify or Github.
 [https://github.com/gitname/react-gh-pages](https://github.com/gitname/react-gh-pages)
 
 You should now be able to use the application by logging into your client. We recommend signing-in with Google using the same account that you had added to the Auth0 rule.
+
+**All constributions welcome!**
