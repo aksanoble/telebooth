@@ -149,4 +149,4 @@ Now let's deploy our telebooth client to either Netlify or Github.
 
 You should now be able to use the application by logging into your client. We recommend signing-in with Google using the same account that you had added to the Auth0 rule.
 
-**All constributions welcome!**
+**All contributions welcome!**
