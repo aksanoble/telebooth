@@ -1,4 +1,10 @@
+# Telebooth
+
+### Telebooth is a self-hosted Telegram Bot Manager.
+
 **Tech Stacks used in this projects are**
+
+![screenshots/telebooth.png](screenshots/telebooth.png)
 
 - NodeJS
 - Hasura and GraphQL
