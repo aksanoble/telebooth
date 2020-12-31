@@ -1,10 +1,6 @@
 # Telebooth
 
-Telebooth is a self hosted Telegram Bot Manager. Easily create a virtual Telegram identity for your business/community. Self host. No restrictions on number of messages or contacts.
-
-- Create a Telegram Bot for your business or community
-- Connect with Telebooth
-- Start chatting with your customers/members with the familiar web interface
+Easy Web UI for Telegram Bot Conversations. Easily create a virtual Telegram identity for your business/community. Connect to Telebooth. Manage all your Bot conversations in the familiar web interface.
 
 ![screenshots/telebooth.png](screenshots/telebooth.png)
 
