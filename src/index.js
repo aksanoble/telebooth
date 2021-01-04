@@ -1,48 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   ChakraProvider, Center, Box,
 } from '@chakra-ui/react';
+import { Auth0Provider } from '@auth0/auth0-react';
 
 import App from './App';
-import Signup from './components/Signup';
-import {
-  authenticate,
-  initializeFirebase,
-} from './apis/firebase';
-import AuthContext from './contexts/authContext';
 
-// Initialization Firebase
-initializeFirebase();
+const DOMAIN = process.env.REACT_APP_AUTH0_DOMAIN;
+const CLIENT_ID = process.env.REACT_APP_AUTH0_CLIENT_ID;
+const AUDIENCE = process.env.REACT_APP_AUDIENCE;
 
-const Auth = () => {
-  const [authState, setAuthState] = useState({ status: 'loading' });
-
-  useEffect(() => {
-    authenticate(setAuthState);
-  }, []);
-
-  if (authState.status === 'loading') {
-    return <div><p>Loading...</p></div>;
-  }
-
-  return (
-    <ChakraProvider>
+const Auth = () => (
+  <ChakraProvider>
+    <Auth0Provider
+      domain={DOMAIN}
+      clientId={CLIENT_ID}
+      redirectUri={window.location.origin}
+      audience={AUDIENCE}
+      onRedirectCallback={() => window.location.pathname}
+      useRefreshTokens
+      cacheLocation="localstorage"
+    >
       <div className="auth">
         <Center width="100%" height="100vh">
-          {authState.status === 'in' ? (
-            <AuthContext.Provider value={{ authState, setAuthState }}>
-              <Box w="100%">
-                <App />
-              </Box>
-            </AuthContext.Provider>
-          ) : (
-            <Signup />
-          )}
+          <Box w="100%">
+            <App />
+          </Box>
         </Center>
       </div>
-    </ChakraProvider>
-  );
-};
+    </Auth0Provider>
+  </ChakraProvider>
+);
 
 ReactDOM.render(<Auth />, document.getElementById('root'));
