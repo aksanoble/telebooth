@@ -1,6 +1,6 @@
 # Telebooth
 
-Easy Web UI for Telegram Bot Conversations. Easily create a virtual Telegram identity for your business/community. Connect to Telebooth. Manage all your Bot conversations in the familiar web interface.
+Free and open source customer support on Telegram. Reach your customers directly on Telegram with your Telegram business identity. No limits on messages or contacts.
 
 ![screenshots/telebooth.png](screenshots/telebooth.png)
 
@@ -45,7 +45,7 @@ $ git clone https://github.com/aksanoble/telebooth.git
 $ cd telebooth/
 ```
 
-Now you have both client and server code on your local machine, now we'll set up our Postgres DB on Hasura by uploading metadata and migrations which live inside the telebooth repo under the `hasura/` directory.
+Now you have both client and server code on your local machine, now we'll set up our Postgres DB on Hasura by uploading metadata and migrations which live inside the telebooth-server repo under the `hasura/` directory.
 
 To upload metadata on Hasura cloud we need to install the CLI and it is available in both global binary and NPM package.
 
