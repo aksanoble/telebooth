@@ -1,6 +1,6 @@
 # Telebooth
 
-Free and open source customer support on Telegram. Reach your customers directly on Telegram with your Telegram business identity. No limits on messages or contacts.
+Free and open source customer support tool built for Telegram. Reach your customers directly on Telegram with your Telegram business identity. No limits on messages or contacts.
 
 ![screenshots/telebooth.png](screenshots/telebooth.png)
 
