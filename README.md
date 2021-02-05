@@ -58,11 +58,12 @@ $ npm install --global hasura-cli
 $ hasura --help
 ```
 
-To apply migration to Postgres DB navigate to `/hasura` directory and enter below commands.
+To apply migration to Postgres DB navigate to `/hasura` directory of telebooth-server and enter below commands.
 
-```jsx
+```shell
 // Update endpoint param with your's endpoint value.
-$ cd harsura/
+$ cd telebooth-server
+$ cd hasura/
 $ hasura migrate apply --admin-secret "${admin_secret}" --endpoint https://telebooth.herokuapp.com
 // If it is successfully done, you'll get message
 INFO migrations applied
